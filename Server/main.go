@@ -21,8 +21,8 @@ func main(){
   // create an todo slice :
   todo_list := []Todo{}
   // create the ferst test router :
-  my_app.Get("/Check",func(c *fiber.Ctx) error {
-     return c.SendString("Hello, World 👋!")
+  my_app.Get("/api/Todos",func(c *fiber.Ctx) error {
+     return c.JSON(todo_list)
   })
   // generate a post request handler :
   my_app.Post("/api/Todos",func(c *fiber.Ctx) error{
@@ -37,6 +37,23 @@ func main(){
     current_todo.Id = len(todo_list)+1
     // add current todo to todo list :
     todo_list = append(todo_list,*current_todo)
+    return c.JSON(todo_list)
+  })
+  // add an update request handler to manage updating state of todo :
+  my_app.Patch("/api/Todos/:id/Done", func(c *fiber.Ctx) error{
+    // get the id url-argument :
+    id, err := c.ParamsInt("id")
+    // check if there is an error :
+    if err != nil{
+      return c.Status(401).SendString("Invalid id")
+    }
+    // get the todo target from todo_list :
+    for index,t_current := range(todo_list){
+      if t_current.Id == id{
+        todo_list[index].Done = true
+        break
+      }
+    }
     return c.JSON(todo_list)
   })
   // generate listen port :
