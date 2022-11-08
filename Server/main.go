@@ -1,6 +1,7 @@
 package main
  import (
    "github.com/gofiber/fiber/v2"
+   "github.com/gofiber/fiber/v2/middleware/cors"
   )
 
 // create an todo struct :
@@ -18,6 +19,12 @@ type Todo struct{
 func main(){
   // create new fiber instace :
   my_app := fiber.New()
+  // add cors to owr application :
+  my_app.Use(cors.New(
+    cors.Config{
+      AllowOrigins:"http://127.0.0.1:5173",
+      AllowHeaders:"Origin, Content-Type, Accept",
+    }))
   // create an todo slice :
   todo_list := []Todo{}
   // create the ferst test router :
