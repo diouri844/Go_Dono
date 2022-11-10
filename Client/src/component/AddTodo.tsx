@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { Button, Group, Modal, Textarea, TextInput } from '@mantine/core'
 import { baseUrl, Todo } from '../App';
-function AddTodo({mutate}:{ mutate : KeyedMutator<Todo[]>} ){
+function AddTodo(){
     //define the state manger of opening and closing the modal : 
     const [open, setOpen] = useState(false);
     //create a formular to add new todo :
@@ -16,7 +16,7 @@ function AddTodo({mutate}:{ mutate : KeyedMutator<Todo[]>} ){
            body: JSON.stringify(values)
         })
         .then( response => response.json())
-        mutate(sended);
+        //mutate(sended);
         // reset to default :
         form.reset();
         //close modal :
